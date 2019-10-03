@@ -28,3 +28,7 @@ dependencies {
 	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
+
+bootRun {
+	sourceResources sourceSets.main
+}
