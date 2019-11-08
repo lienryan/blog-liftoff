@@ -6,9 +6,10 @@
 
 <ul>
     <li th:each="post : ${posts}">
-        <h1 th:text="${post.title}"></h1>
+        <h1><a th:href="@{'/posts/detail/'+ ${post.id}}" th:text="${post.title}"></a></h1>
             <p th:text="${post.date}"></p>
         <p th:text="${post.body}"></p>
+        <a th:href="@{'/posts/edit/' + ${post.id}}">Edit Post</a>
 
     </li>
 </ul>
