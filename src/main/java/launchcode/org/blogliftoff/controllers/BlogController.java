@@ -1,7 +1,8 @@
 package launchcode.org.blogliftoff.controllers;
 
-import javafx.geometry.Pos;
+import launchcode.org.blogliftoff.models.Comment;
 import launchcode.org.blogliftoff.models.Post;
+import launchcode.org.blogliftoff.repositories.CommentRepository;
 import launchcode.org.blogliftoff.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,9 @@ public class BlogController {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     @GetMapping(value = "")
     public String listPosts(Model model) {
@@ -72,7 +76,17 @@ public class BlogController {
             return "posts/edit";
 
         postRepository.save(post);
-        return "redirect:/posts/detail/" + post.getId();
+        return "redirect:";
+        //return "redirect:/posts/detail/" + post.getId();
     }
+
+    @PostMapping(value = "delete/{id}")
+    public String processDeletePost (@PathVariable int id, Model model) {
+        Optional<Post> post = postRepository.findById(id);
+        postRepository.delete(post.get());
+        model.addAttribute("Delete Successfully");
+        return "redirect:";
+    }
+
 
 }

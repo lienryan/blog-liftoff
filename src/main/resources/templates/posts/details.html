@@ -10,7 +10,14 @@
         <p th:text="${post.date}"></p>
     </div>
     <p th:text="${post.body}"></p>
+
 </div>
+
+<form th:action="@{'/posts/delete/' + ${post.id}}" method="post">
+    <button>Delete Blog</button>
+</form>
+
+<a th:href="@{'/posts/edit/' + ${post.id}}">Edit Post</a>
 
 </body>
 </html>
