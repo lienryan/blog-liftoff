@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body>
+<h1 th:text="${title}">Default Title</h1>
+
+<div th:fragment="commentForm">
+<form method="post" th:action="@{/comments/create}" th:object="${comment}">
+
+
+    <div class="form-group">
+        <label th:for="text">Comment</label>
+        <input class="form-control" th:field="*{text}"  placeholder="Your comment"/>
+        <span th:errors="*{text}" class="error"></span>
+    </div>
+
+    <input type="submit" value="Submit Comment"/>
+</form>
+</div>
+
+</body>
+</html>
+
