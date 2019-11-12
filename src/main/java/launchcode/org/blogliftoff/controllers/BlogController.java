@@ -64,7 +64,7 @@ public class BlogController {
 
         model.addAttribute("title", "Edit Post");
 
-        Optional<Post> post = postRepository.findById(postId);
+        Optional<Post> post = postRepository.findById(id);
         model.addAttribute(post.get());
         return "posts/edit";
 
