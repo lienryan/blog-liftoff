@@ -85,7 +85,7 @@ public class BlogController {
         Optional<Post> post = postRepository.findById(id);
         postRepository.delete(post.get());
         model.addAttribute("Delete Successfully");
-        return "redirect:";
+        return "redirect:posts";
     }
 
 
