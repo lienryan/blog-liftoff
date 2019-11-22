@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
-<body>
+<body class="container">
+<nav th:replace="fragments :: navigation"></nav>
 <h1 th:text="${title}">Default Title</h1>
 
 <h1 th:unless="${comments} and ${comments.size()}">No comments :(</h1>
 
 <ul>
     <li th:each="comment : ${comments}">
+
         <p th:text="${comment.text}"></p>
+
+        <p th:text="${comment.name}"></p>
+
 
     </li>
 </ul>

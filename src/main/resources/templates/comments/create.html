@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
-<body>
+<body class="container">
 <h1 th:text="${title}">Default Title</h1>
 
 <div th:fragment="commentForm">
 <form method="post" th:action="@{/comments/create}" th:object="${comment}">
+
+    <div class="form-group">
+        <label th:for="name">Name</label>
+        <input class="form-control" th:field="*{name}"  placeholder="Your Name"/>
+        <span th:errors="*{name}" class="error"></span>
+    </div>
 
 
     <div class="form-group">
@@ -14,6 +20,7 @@
         <span th:errors="*{text}" class="error"></span>
     </div>
 
+    <input type="hidden" th:field="*{post}"/>
     <input type="submit" value="Submit Comment"/>
 </form>
 </div>

@@ -1,7 +1,10 @@
 package launchcode.org.blogliftoff.models;
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 
 @Entity
@@ -14,19 +17,39 @@ public class Comment {
 
     @NotNull
     @Size(min=2)
+    private String name;
+
+    @NotNull
+    @Size(min=2)
     private String text;
+/*
+    @CreationTimestamp
+    private Date createDate;
+*/
 
     @ManyToOne
     @JoinColumn(name="post_id")
     private Post post;
 
+
     @NotNull
     public Comment() {
     }
 
-    public Comment(String text) {
+    public String getName() {
+        return name;
+    }
+
+    public Comment(String name, String text) {
+        this.name = name;
         this.text = text;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
 
     public int getId() {
         return id;
@@ -51,4 +74,5 @@ public class Comment {
     public void setPost(Post post) {
         this.post = post;
     }
+
 }

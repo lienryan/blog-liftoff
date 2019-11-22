@@ -1,23 +1,55 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
-<body>
+<body class="container">
 <h1 th:text="${title}">Default Title</h1>
 
 <div>
     <h1 th:text="${post.title}"></h1>
     <div>
-        <p th:text="${post.date}"></p>
+        <!-- <p th:text="${post.date}"></p> -->
     </div>
     <p th:text="${post.body}"></p>
 
 </div>
 
-<form th:action="@{'/posts/delete/' + ${post.id}}" method="post">
-    <button>Delete Blog</button>
-</form>
+<ul class="nav nav-pills nav-stacked">
 
-<a th:href="@{'/posts/edit/' + ${post.id}}">Edit Post</a>
+  <li class="nav-item">
+    <form th:action="@{'/posts/delete/' + ${post.id}}" method="post">
+    <button>Delete Blog</button>
+    </form>
+  </li>
+
+
+  <li class="nav-item">
+    <a th:href="@{'/posts/edit/' + ${post.id}}">
+        <button>Edit Post</button>
+    </a>
+  </li>
+
+</ul>
+
+<br>
+<br>
+
+
+  <div class="nav-item">
+        <a th:href="@{'/comments/create/{id}'(id=${post.id})}" >
+            <button type="button" th:text="Comment">Comment</button>
+        </a>
+  </div>
+
+
+<br>
+
+<h4>Comments:</h4>
+<div th:each="comment : ${post.comments}">
+    <h5 th:text="${comment.text}"></h5>
+    <h5 th:text="${comment.name}"></h5>
+</div>
+
+
 
 </body>
 </html>
