@@ -1,17 +1,21 @@
 package launchcode.org.blogliftoff.controllers;
 
-import launchcode.org.blogliftoff.models.Comment;
+
 import launchcode.org.blogliftoff.models.Post;
+import launchcode.org.blogliftoff.models.User;
 import launchcode.org.blogliftoff.repositories.CommentRepository;
 import launchcode.org.blogliftoff.repositories.PostRepository;
+import launchcode.org.blogliftoff.services.PostService;
+import launchcode.org.blogliftoff.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +25,12 @@ public class BlogController {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private PostService postService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private CommentRepository commentRepository;
@@ -33,19 +43,25 @@ public class BlogController {
     }
 
     @GetMapping(value = "create")
-    public String displayCreatePostForm(Model model) {
+    public String displayCreatePostForm(Model model, String email, HttpSession session) {
+
+        session.setAttribute("email", email);
         model.addAttribute(new Post());
         model.addAttribute("title", "Create Blog");
         return "posts/create";
     }
 
     @PostMapping(value = "create")
-    public String processCreatePostForm(@Valid @ModelAttribute Post post, Errors errors) {
+    public String processCreatePostForm(@Valid @ModelAttribute Post post, Errors errors, HttpSession session) {
         if (errors.hasErrors())
             return "posts/create";
 
-        postRepository.save(post);
-        return "redirect:";
+        //User can create a blog
+        String email = (String)session.getAttribute("email");
+        postService.createPost(post, userService.findByEmail(email));
+
+        //postRepository.save(post);
+        return "redirect:/user";
 
     }
 
@@ -85,7 +101,7 @@ public class BlogController {
         Optional<Post> post = postRepository.findById(id);
         postRepository.delete(post.get());
         model.addAttribute("Delete Successfully");
-        return "redirect:posts";
+        return "redirect:/posts";
     }
 
 

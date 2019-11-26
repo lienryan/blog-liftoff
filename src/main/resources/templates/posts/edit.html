@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
-<body>
+<body class="container">
 <h1 th:text="${title}">Default Title</h1>
 
 
@@ -19,12 +19,7 @@
         <span th:errors="*{body}" class="error"></span>
     </div>
 
-    </div>
-    <div class="form-group">
-        <label th:for="date">Date</label>
-        <input  class="form-control" th:field="*{date}" placeholder="Created Date Format (YYYY/MM/DD)"/>
-        <span th:errors="*{date}" class="error"></span>
-    </div>
+
 
     <input type="hidden" th:value="${post.id}" name="id" />
     <input type="submit" value="Edit Blog"/>

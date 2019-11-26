@@ -1,12 +1,11 @@
 package launchcode.org.blogliftoff.models;
 
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -16,22 +15,47 @@ public class Post {
     @GeneratedValue
     private int id;
 
-    @NotNull
+    @NotEmpty
     private String title;
 
-    @NotNull
+
+    @NotEmpty
     private String body;
 
-    @NotNull
-    private Date date;
+/*    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+     private Date createDate;
+
+ */
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments;
+
+    @ManyToOne
+    @JoinColumn(name="USER_EMAIL")
+    private User user;
+
 
     public Post() {
     }
 
-    public Post(@NotNull String title, @NotNull String body, @NotNull Date date) {
+/*    public Post(@NotNull String title, @NotNull String body, @NotNull Date createDate) {
         this.title = title;
         this.body = body;
-        this.date = date;
+        this.createDate = createDate
+
+    }
+*/
+
+    public Post(String title, String body) {
+        this.title = title;
+        this.body = body;
+    }
+
+    public Post(String title, String body, User user) {
+        this.title = title;
+        this.body = body;
+        this.user = user;
     }
 
     public int getId() {
@@ -58,12 +82,24 @@ public class Post {
         this.body = body;
     }
 
-    public Date getDate() {
-        return date;
+/*    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+*/
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
 
