@@ -15,27 +15,28 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
+/*
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests().anyRequest().permitAll();
     }
 
-
-/*
-
-
+ */
 
     @Autowired
     private DataSource dataSource;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource)
-
-        .usersByUsernameQuery("select email as principal, password as credentials, true from user where email=?")
-        .authoritiesByUsernameQuery("select user_email as principal, role_name  as role from user_roles where user_email=?")
+        auth.
+                jdbcAuthentication()
+                .dataSource(dataSource)
+                //.usersByUsernameQuery("select email as principal, password as credentials, true from user where email=?")
+                //.authoritiesByUsernameQuery("select user_email as principal, role_name  as role from user_roles where user_email=?")
+                .usersByUsernameQuery("select email, password, true from user where email=?")
+                .authoritiesByUsernameQuery("select user_email, role_name from user_roles where user_email=?")
                 .passwordEncoder(passwordEncoder()).rolePrefix("ROLE_");
+
     }
 
     @Bean
@@ -52,11 +53,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/user/profile").and().logout().logoutSuccessUrl("/user/login");
 
     }
-
-
-
-
- */
-
 
 }
