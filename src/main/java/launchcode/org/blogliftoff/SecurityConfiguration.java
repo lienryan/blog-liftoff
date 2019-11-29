@@ -49,7 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests().antMatchers(
                 "/posts","/user/register","/user/login").permitAll()
-                .anyRequest().authenticated().and().formLogin().loginPage("/user/login").permitAll()
+                .anyRequest().authenticated().and().formLogin().loginPage("/user/login").usernameParameter("email").permitAll()
                 .defaultSuccessUrl("/user/profile").and().logout().logoutSuccessUrl("/user/login");
 
     }
