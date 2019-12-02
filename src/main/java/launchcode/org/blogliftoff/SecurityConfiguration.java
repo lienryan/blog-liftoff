@@ -34,9 +34,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //.usersByUsernameQuery("select email as principal, password as credentials, true from user where email=?")
                 //.authoritiesByUsernameQuery("select user_email as principal, role_name  as role from user_roles where user_email=?")
                 .usersByUsernameQuery("select email, password, true from user where email=?")
-                .authoritiesByUsernameQuery("select user_email, role_name from user_roles where user_email=?")
+                .authoritiesByUsernameQuery("select user_email, role_name as role from user_roles where user_email=?")
                 .passwordEncoder(passwordEncoder()).rolePrefix("ROLE_");
-
     }
 
     @Bean
@@ -47,8 +46,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests().antMatchers(
-                "/posts","/user/register","/user/login").permitAll()
+        http.authorizeRequests()
+                .antMatchers("/user/register","/user/login").permitAll()
+                .antMatchers("/posts").permitAll()
+                .antMatchers("/posts/detail/**").permitAll()
+                .antMatchers("/comments/create/**").permitAll()
+
+
                 .anyRequest().authenticated().and().formLogin().loginPage("/user/login").usernameParameter("email").permitAll()
                 .defaultSuccessUrl("/user/profile").and().logout().logoutSuccessUrl("/user/login");
 

@@ -1,28 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<html lang="en" xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:sec="http://http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments :: head"></head>
 <body class="container">
 <h1 th:text="${title}">Default Title</h1>
 
 <div>
     <h1 th:text="${post.title}"></h1>
-    <div>
-        <!-- <p th:text="${post.date}"></p> -->
-    </div>
-    <p th:text="${post.body}"></p>
+
+    <div th:text="'Created: ' + ${#dates.format(post.createDate, 'dd-MMM-yyyy HH:mm:ss')}">Created by</div>
+    <div th:text="'Updated: ' + ${#dates.format(post.updateDate, 'dd-MMM-yyyy HH:mm:ss')}"></div>
+    <!-- <div><a th:text="${post.user.username}" th:href="@{/user/profile}">User</a></div> -->
+
+    <h3 th:text="${post.body}"></h3>
 
 </div>
 
 <ul class="nav nav-pills nav-stacked">
 
-  <li class="nav-item">
+  <li class="nav-item" sec:authorize="isAuthenticated()">
     <form th:action="@{'/posts/delete/' + ${post.id}}" method="post">
     <button>Delete Blog</button>
     </form>
   </li>
 
 
-  <li class="nav-item">
+  <li class="nav-item" >
     <a th:href="@{'/posts/edit/' + ${post.id}}">
         <button>Edit Post</button>
     </a>
@@ -45,8 +48,9 @@
 
 <h4>Comments:</h4>
 <div th:each="comment : ${post.comments}">
-    <h5 th:text="${comment.text}"></h5>
-    <h5 th:text="${comment.name}"></h5>
+    <h4 th:text="${comment.text}"></h4>
+    <h6 th:text="${comment.name}"></h6>
+    <h6 th:text="'Comment time: ' + ${#dates.format(comment.commentDate, 'dd-MMM-yyyy HH:mm:ss')}">Date Time</h6>
 </div>
 
 

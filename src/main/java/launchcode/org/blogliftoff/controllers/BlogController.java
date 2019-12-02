@@ -1,6 +1,7 @@
 package launchcode.org.blogliftoff.controllers;
 
 
+import javafx.geometry.Pos;
 import launchcode.org.blogliftoff.models.Post;
 import launchcode.org.blogliftoff.models.User;
 import launchcode.org.blogliftoff.repositories.CommentRepository;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,11 +45,12 @@ public class BlogController {
     }
 
     @GetMapping(value = "create")
-    public String displayCreatePostForm(Model model, String email, HttpSession session) {
+    public String displayCreatePostForm(Model model, String email,HttpSession session) {
 
         session.setAttribute("email", email);
         model.addAttribute(new Post());
         model.addAttribute("title", "Create Blog");
+
         return "posts/create";
     }
 
@@ -57,12 +60,11 @@ public class BlogController {
             return "posts/create";
 
         //User can create a blog
-        String email = (String)session.getAttribute("email");
+        String email = (String) session.getAttribute("email");
         postService.createPost(post, userService.findByEmail(email));
 
         //postRepository.save(post);
-        return "redirect:/user";
-
+        return "redirect:/user/profile";
     }
 
     @GetMapping(value = "detail/{id}")
@@ -75,34 +77,50 @@ public class BlogController {
 
     }
 
-    @GetMapping(value = "edit/{postId}")
-    public String displayEditPostForm(Model model, @PathVariable int postId) {
 
+    @GetMapping(value = "edit/{id}")
+    public String displayEditPostForm(Model model, @PathVariable int id) {
         model.addAttribute("title", "Edit Post");
 
         Optional<Post> post = postRepository.findById(id);
+
         model.addAttribute(post.get());
+
         return "posts/edit";
 
     }
 
     @PostMapping(value = "edit")
     public String processEditPostForm (@Valid @ModelAttribute Post post, Errors errors) {
+
         if (errors.hasErrors())
+
             return "posts/edit";
 
         postRepository.save(post);
+
         return "redirect:";
+
         //return "redirect:/posts/detail/" + post.getId();
+
     }
 
     @PostMapping(value = "delete/{id}")
-    public String processDeletePost (@PathVariable int id, Model model) {
-        Optional<Post> post = postRepository.findById(id);
-        postRepository.delete(post.get());
-        model.addAttribute("Delete Successfully");
-        return "redirect:/posts";
+    public String processDeletePost(@PathVariable int id, Model model, Principal principal) {
+        Optional<Post> optionalPost = postRepository.findById(id);
+        if (optionalPost.isPresent()) {
+            Post post = optionalPost.get();
+
+            if (isPrincipleOwner(principal, post)) {
+                postRepository.delete(post);
+                return "redirect:/user/profile";
+            }
+            return "messageError";
+        }
+        return "Error";
     }
 
-
+    private boolean isPrincipleOwner(Principal principal, Post post) {
+        return principal != null && principal.getName().equals(post.getUser().getEmail());
+    }
 }

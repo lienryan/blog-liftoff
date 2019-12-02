@@ -2,9 +2,13 @@ package launchcode.org.blogliftoff.models;
 
 
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 
@@ -22,11 +26,15 @@ public class Post {
     @NotEmpty
     private String body;
 
-/*    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_date",nullable = false, updatable = false )
     @CreationTimestamp
-     private Date createDate;
+    private Date createDate;
 
- */
+    @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
+    private Date updateDate;
+
 
     @OneToMany(mappedBy = "post")
     private List<Comment> comments;
@@ -39,13 +47,19 @@ public class Post {
     public Post() {
     }
 
-/*    public Post(@NotNull String title, @NotNull String body, @NotNull Date createDate) {
+    public Post(@NotNull String title, @NotNull String body, @NotNull Date createDate) {
         this.title = title;
         this.body = body;
-        this.createDate = createDate
+        this.createDate = createDate;
 
     }
-*/
+
+    public Post(@NotEmpty String title, @NotEmpty String body, Date createDate, Date updateDate) {
+        this.title = title;
+        this.body = body;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+    }
 
     public Post(String title, String body) {
         this.title = title;
@@ -82,14 +96,14 @@ public class Post {
         this.body = body;
     }
 
-/*    public Date getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
-*/
+
     public List<Comment> getComments() {
         return comments;
     }
@@ -104,6 +118,14 @@ public class Post {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 }
 

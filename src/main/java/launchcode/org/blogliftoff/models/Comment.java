@@ -22,10 +22,12 @@ public class Comment {
     @NotNull
     @Size(min=2)
     private String text;
-/*
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "comment_date",nullable = false, updatable = false )
     @CreationTimestamp
-    private Date createDate;
-*/
+    private Date commentDate;
+
 
     @ManyToOne
     @JoinColumn(name="post_id")
@@ -38,6 +40,12 @@ public class Comment {
 
     public String getName() {
         return name;
+    }
+
+    public Comment(@NotNull @Size(min = 2) String name, @NotNull @Size(min = 2) String text, Date commentDate) {
+        this.name = name;
+        this.text = text;
+        this.commentDate = commentDate;
     }
 
     public Comment(String name, String text) {
@@ -75,4 +83,11 @@ public class Comment {
         this.post = post;
     }
 
+    public Date getCommentDate() {
+        return commentDate;
+    }
+
+    public void setCommentDate(Date commentDate) {
+        this.commentDate = commentDate;
+    }
 }
