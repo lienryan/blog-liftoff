@@ -1,7 +1,5 @@
 package launchcode.org.blogliftoff.controllers;
 
-
-import javafx.geometry.Pos;
 import launchcode.org.blogliftoff.models.Post;
 import launchcode.org.blogliftoff.models.User;
 import launchcode.org.blogliftoff.repositories.CommentRepository;
@@ -20,6 +18,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 @Controller
 @RequestMapping(value = "/posts")
@@ -45,25 +44,27 @@ public class BlogController {
     }
 
     @GetMapping(value = "create")
-    public String displayCreatePostForm(Model model, String email,HttpSession session) {
+    public String displayCreatePostForm(Model model,Principal principal) {
 
-        session.setAttribute("email", email);
-        model.addAttribute(new Post());
-        model.addAttribute("title", "Create Blog");
+        User user = userService.findByEmail(principal.getName());
+        if (user.isPresent()) {
+            Post post = new Post();
+            post.setUser(user);
+            model.addAttribute("post", post);
+            model.addAttribute("title", "Create Blog");
+            return "posts/create";
+        } else {
+            return "Error";
+        }
 
-        return "posts/create";
     }
 
     @PostMapping(value = "create")
-    public String processCreatePostForm(@Valid @ModelAttribute Post post, Errors errors, HttpSession session) {
+    public String processCreatePostForm(@Valid @ModelAttribute Post post, Errors errors) {
         if (errors.hasErrors())
             return "posts/create";
 
-        //User can create a blog
-        String email = (String) session.getAttribute("email");
-        postService.createPost(post, userService.findByEmail(email));
-
-        //postRepository.save(post);
+        postRepository.save(post);
         return "redirect:/user/profile";
     }
 
@@ -77,50 +78,43 @@ public class BlogController {
 
     }
 
-
-    @GetMapping(value = "edit/{id}")
-    public String displayEditPostForm(Model model, @PathVariable int id) {
-        model.addAttribute("title", "Edit Post");
-
-        Optional<Post> post = postRepository.findById(id);
-
-        model.addAttribute(post.get());
-
-        return "posts/edit";
-
-    }
-
-    @PostMapping(value = "edit")
-    public String processEditPostForm (@Valid @ModelAttribute Post post, Errors errors) {
-
-        if (errors.hasErrors())
-
-            return "posts/edit";
-
-        postRepository.save(post);
-
-        return "redirect:";
-
-        //return "redirect:/posts/detail/" + post.getId();
-
-    }
-
-    @PostMapping(value = "delete/{id}")
-    public String processDeletePost(@PathVariable int id, Model model, Principal principal) {
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public String editPostWithId(@PathVariable int id,  Principal principal,  Model model) {
         Optional<Post> optionalPost = postRepository.findById(id);
         if (optionalPost.isPresent()) {
             Post post = optionalPost.get();
 
-            if (isPrincipleOwner(principal, post)) {
+            if (isPrincipalOwner(principal, post)) {
+                model.addAttribute("post", post);
+
+                return "posts/create";
+
+            } else {
+
+                return "Error";
+
+            }
+        }else{
+            return "Error";
+        }
+    }
+
+
+    @PostMapping(value = "delete/{id}")
+    public String processDeletePost(@PathVariable int id, Model model, Principal principal) {
+        Optional<Post> optionalPost = postRepository.findById(id);
+
+        Post post = optionalPost.get();
+
+            if (isPrincipalOwner(principal, post)) {
                 postRepository.delete(post);
                 return "redirect:/user/profile";
             }
             return "messageError";
-        }
-        return "Error";
+
     }
 
-    private boolean isPrincipleOwner(Principal principal, Post post) {
+    private boolean isPrincipalOwner(Principal principal, Post post) {
         return principal != null && principal.getName().equals(post.getUser().getEmail());
     }
 }

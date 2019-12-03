@@ -19,7 +19,8 @@
         <span th:errors="*{body}" class="error"></span>
     </div>
 
-
+    <input type="hidden" th:field="*{user}"/>
+    <input type="hidden" th:field="*{id}"/>
     <input type="submit" value="Submit Blog"/>
 </form>
 

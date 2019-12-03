@@ -85,4 +85,7 @@ public class User {
     }
 
 
+    public boolean isPresent() {
+        return true;
+    }
 }

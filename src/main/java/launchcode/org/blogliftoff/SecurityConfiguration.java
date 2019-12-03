@@ -51,10 +51,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/posts").permitAll()
                 .antMatchers("/posts/detail/**").permitAll()
                 .antMatchers("/comments/create/**").permitAll()
-
-
-                .anyRequest().authenticated().and().formLogin().loginPage("/user/login").usernameParameter("email").permitAll()
-                .defaultSuccessUrl("/user/profile").and().logout().logoutSuccessUrl("/user/login");
+                .anyRequest().authenticated()
+                .and()
+                    .formLogin()
+                    .loginPage("/user/login")
+                    .usernameParameter("email")
+                    .permitAll()
+                    .defaultSuccessUrl("/user/profile", true)
+                .and()
+                    .logout()
+                    .logoutSuccessUrl("/user/login");
 
     }
 

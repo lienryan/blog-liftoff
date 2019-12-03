@@ -18,7 +18,7 @@ Now is: <b th:text="${execInfo.now.time}"></b>
 
         <div th:text="'Created: ' + ${#dates.format(post.createDate, 'dd-MMM-yyyy HH:mm:ss')}">Created by</div>
         <div th:text="'Updated: ' + ${#dates.format(post.updateDate, 'dd-MMM-yyyy HH:mm:ss')}"></div>
-        <!-- <div><a th:text="${post.user.username}" th:href="@{/user/profile}">User</a></div> -->
+        <div><a th:text="${post.user.username}" th:href="@{/user/profile}">User</a></div>
 
         <h3 th:text="${post.body}"></h3>
     </li>
