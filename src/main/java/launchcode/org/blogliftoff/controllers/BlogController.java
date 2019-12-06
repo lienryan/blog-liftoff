@@ -29,13 +29,6 @@ public class BlogController {
     @Autowired
     private CommentRepository commentRepository;
 
-    @GetMapping(value = "")
-    public String listPosts(Model model) {
-        List<Post> allPosts = postRepository.findAll();
-        model.addAttribute("posts", allPosts);
-        return "posts/list";
-    }
-
     @GetMapping(value = "create")
     public String displayCreatePostForm(Model model,Principal principal) {
 
