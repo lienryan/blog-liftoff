@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+<nav th:replace="fragments :: navigation"></nav>
+
+<h1 th:text="${title}">Default title</h1>
+
+
+<div>
+    <div>
+        <h1>There was an error |<span th:text="${message}"></span>|<span th:text="${status}" class="text text-danger"></span></h1>
+    </div>
+    <div>
+       <h3> Please contact LienRyan if you want to know what problem!!!</h3>
+    </div>
+</div>
+</body>
+
+</html>

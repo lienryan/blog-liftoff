@@ -4,21 +4,17 @@ import launchcode.org.blogliftoff.models.Post;
 import launchcode.org.blogliftoff.models.User;
 import launchcode.org.blogliftoff.repositories.CommentRepository;
 import launchcode.org.blogliftoff.repositories.PostRepository;
-import launchcode.org.blogliftoff.services.PostService;
 import launchcode.org.blogliftoff.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
+
 
 @Controller
 @RequestMapping(value = "/posts")
@@ -26,9 +22,6 @@ public class BlogController {
 
     @Autowired
     private PostRepository postRepository;
-
-    @Autowired
-    private PostService postService;
 
     @Autowired
     private UserService userService;
@@ -54,7 +47,7 @@ public class BlogController {
             model.addAttribute("title", "Create Blog");
             return "posts/create";
         } else {
-            return "Error";
+            return "/error";
         }
 
     }
@@ -80,9 +73,9 @@ public class BlogController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String editPostWithId(@PathVariable int id,  Principal principal,  Model model) {
-        Optional<Post> optionalPost = postRepository.findById(id);
-        if (optionalPost.isPresent()) {
-            Post post = optionalPost.get();
+        Optional<Post> currentPost = postRepository.findById(id);
+        if (currentPost.isPresent()) {
+            Post post = currentPost.get();
 
             if (isPrincipalOwner(principal, post)) {
                 model.addAttribute("post", post);
@@ -91,27 +84,30 @@ public class BlogController {
 
             } else {
 
-                return "Error";
+                return "/notAllow";
 
             }
         }else{
-            return "Error";
+            return "/error";
         }
     }
 
 
     @PostMapping(value = "delete/{id}")
     public String processDeletePost(@PathVariable int id, Model model, Principal principal) {
-        Optional<Post> optionalPost = postRepository.findById(id);
-
-        Post post = optionalPost.get();
+        Optional<Post> currentPost = postRepository.findById(id);
+        if (currentPost.isPresent()) {
+            Post post = currentPost.get();
 
             if (isPrincipalOwner(principal, post)) {
                 postRepository.delete(post);
                 return "redirect:/user/profile";
+            } else {
+                return "/notAllow";
             }
-            return "messageError";
-
+        }else{
+            return "/error";
+        }
     }
 
     private boolean isPrincipalOwner(Principal principal, Post post) {

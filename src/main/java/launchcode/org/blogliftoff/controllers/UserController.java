@@ -1,9 +1,7 @@
 package launchcode.org.blogliftoff.controllers;
 
-import javafx.geometry.Pos;
+
 import launchcode.org.blogliftoff.models.User;
-import launchcode.org.blogliftoff.repositories.PostRepository;
-import launchcode.org.blogliftoff.repositories.UserRepository;
 import launchcode.org.blogliftoff.services.PostService;
 import launchcode.org.blogliftoff.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("user")
@@ -50,15 +47,15 @@ public class UserController {
         }
 
 
-/*        if (user.getPassword().equals(verify)) {
-            model.addAttribute("user",user);
-            return "user/index";
+        if (!user.getPassword().equals(verify)) {
+            model.addAttribute(user);
+            model.addAttribute("errorMessage", "Password and Verify must match. Please try again.");
+            return "user/register";
         }
-        model.addAttribute("errorMessage", "Password and verify must match. Please try again.");
-*/
+
 
         if (userService.isUserPresent(user.getEmail())) {
-            model.addAttribute("exist", true);
+            model.addAttribute("errorMessage", "User with this email already exist");
             return "user/register";
         }
 

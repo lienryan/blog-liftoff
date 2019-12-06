@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
@@ -19,11 +20,11 @@ public class Post {
     @GeneratedValue
     private int id;
 
-    @NotEmpty
+    @Size(min=3, message = "Your title must have at least 3 characters")
+    @NotEmpty(message = "Title is required")
     private String title;
 
-
-    @NotEmpty
+    @NotEmpty(message = "Content is required")
     private String body;
 
     @Temporal(TemporalType.TIMESTAMP)

@@ -10,15 +10,15 @@ import java.util.List;
 public class User {
 
     @Id
-    @Email
-    @NotEmpty
+    @Email(message = "Please provide an email")
+    @NotEmpty(message = "Email may not be empty")
     @Column(unique = true)
     private String email;
 
 
-    @NotEmpty
+    @Size(min=3, message = "Your username must have at least 3 characters")
+    @NotEmpty(message = "Please provide your name")
     private String username;
-
 
     @NotEmpty
     @Size(min=4)
