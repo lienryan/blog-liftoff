@@ -8,7 +8,9 @@
 
 
 
-<h2 th:text=" 'Welcome ' + ${user.username} + '. Please log in to continue' "></h2>
+<h3 th:text=" 'Welcome ' + ${user.username} + '. Please log in to continue' "></h3>
+
+<div th:replace="fragments :: footer"></div>
 
 </body>
 

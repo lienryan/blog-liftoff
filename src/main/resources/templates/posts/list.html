@@ -8,23 +8,31 @@
 
 <h1 th:unless="${posts} and ${posts.size()}">no blog :(</h1>
 <div class="jumbotron text-center">
-    <h1> Welcome to my travel blog page</h1>
-    Now is: <b th:text="${execInfo.now.time}"></b>
+    <h1 style="color:blue;" > Welcome to my travel blog page</h1>
+    Now is: <b th:text="${#dates.format(execInfo.now.time, 'dd-MMM-yyyy HH:mm:ss')}"></b>
 </div>
 
 <br>
 
-<div>
-    <li th:each="post : ${posts}">
-        <h1><a th:href="@{'/posts/detail/'+ ${post.id}}" th:text="${post.title}">Title</a></h1>
+<div th:fragment="posts">
 
-        <div th:text="'Created: ' + ${#dates.format(post.createDate, 'dd-MMM-yyyy HH:mm:ss')}">Created by</div>
-        <div th:text="'Updated: ' + ${#dates.format(post.updateDate, 'dd-MMM-yyyy HH:mm:ss')}"></div>
-        <div><a th:text="${post.user.username}" th:href="@{/user/profile}">User</a></div>
+    <div th:each="post : ${posts}">
+        <div>
+            <h4><a th:href="@{'/posts/detail/'+ ${post.id}}" th:text="${post.title}">Title</a></h4>
 
-        <h3 th:text="${post.body}"></h3>
-    </li>
+            <div>
+                <em><a  class="d-inline"  th:text="'Created: ' + ${#dates.format(post.createDate, 'dd-MMM-yyyy HH:mm:ss')}"></a></em> |
+                <em><a  class="d-inline"  th:text="'Updated: ' + ${#dates.format(post.updateDate, 'dd-MMM-yyyy HH:mm:ss')} + ' by ' "></a></em>
+                <b><h6  class="d-inline" style="color:blue;" th:text="${post.user.username}">Created by User</h6></b>
+            </div>
+        </div>
+
+        <p th:text="${post.body}"></p>
+        <hr/>
+
+    </div>
 </div>
 
+<div th:replace="fragments :: footer"></div>
 </body>
 </html>

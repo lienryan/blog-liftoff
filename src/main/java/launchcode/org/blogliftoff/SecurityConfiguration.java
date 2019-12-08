@@ -38,11 +38,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/user/register","/user/login").permitAll()
+               // .antMatchers("/user/register","/user/login", "user/profile").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/posts/detail/**").permitAll()
                 .antMatchers("/comments/create/**").permitAll()
-                .antMatchers("users/profile").hasAnyRole("USER")
+               // .antMatchers("user/profile").hasAnyRole("USER")
                 .antMatchers("posts/create").hasAnyRole("USER")
                 .and()
                     .formLogin()

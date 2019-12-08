@@ -12,7 +12,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -37,7 +36,6 @@ public class BlogController {
             Post post = new Post();
             post.setUser(user);
             model.addAttribute("post", post);
-            model.addAttribute("title", "Create Blog");
             return "posts/create";
         } else {
             return "/error";

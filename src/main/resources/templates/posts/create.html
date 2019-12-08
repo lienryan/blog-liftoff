@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 <body class="container">
+<nav th:replace="fragments :: navigation"></nav>
 <h1 th:text="${title}">Default Title</h1>
 
 
@@ -21,9 +22,10 @@
 
     <input type="hidden" th:field="*{user}"/>
     <input type="hidden" th:field="*{id}"/>
-    <input type="submit" value="Submit Blog"/>
+    <input class="btn btn-primary active" type="submit" value="Submit Blog"/>
 </form>
 
+<div th:replace="fragments :: footer"></div>
 </body>
 </html>
 

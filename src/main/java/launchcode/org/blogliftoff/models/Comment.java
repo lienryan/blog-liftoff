@@ -21,6 +21,7 @@ public class Comment {
 
     @NotNull
     @Size(min=2)
+    @Column(name = "text", columnDefinition = "TEXT")
     private String text;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -29,7 +30,7 @@ public class Comment {
     private Date commentDate;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="post_id")
     private Post post;
 

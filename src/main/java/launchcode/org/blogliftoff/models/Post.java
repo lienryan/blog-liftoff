@@ -24,7 +24,7 @@ public class Post {
     @NotEmpty(message = "Title is required")
     private String title;
 
-    @NotEmpty(message = "Content is required")
+    @Column(name = "body", columnDefinition = "TEXT")
     private String body;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -37,7 +37,7 @@ public class Post {
     private Date updateDate;
 
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     @ManyToOne

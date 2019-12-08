@@ -35,7 +35,6 @@ public class UserController {
 
     @GetMapping(value="register")
     public String add(Model model){
-        model.addAttribute("title", "Add User");
         model.addAttribute("user", new User());
         return "user/register";
     }
