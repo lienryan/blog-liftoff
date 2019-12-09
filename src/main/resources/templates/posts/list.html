@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
-<body class="container">
+<body class="container" >
 
 <nav th:replace="fragments :: navigation"></nav>
-<h1 th:text="${title}">Default Title</h1>
+<h1 th:text="${title}" >Default Title</h1>
 
 <h1 th:unless="${posts} and ${posts.size()}">no blog :(</h1>
 <div class="jumbotron text-center">
@@ -14,7 +14,7 @@
 
 <br>
 
-<div th:fragment="posts">
+<div th:fragment="posts" class="bg-light text-dark">
 
     <div th:each="post : ${posts}">
         <div>

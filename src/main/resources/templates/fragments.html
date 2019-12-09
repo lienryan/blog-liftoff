@@ -5,7 +5,7 @@
     <meta charset="UTF-8"/>
     <title th:text="${title}">My blog</title>
 
-    <link rel="stylesheet" type="text/css" href="/static/styles.css" />
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
@@ -45,7 +45,7 @@
         <li class="nav-item" sec:authorize="isAuthenticated()">
             <form th:action="@{/logout}" method="post" >
                 <input type="hidden"/>
-                <input type="submit" value="Log Out"  />
+                <input class="active" type="submit" value="Log Out"  />
             </form>
         </li>
 
