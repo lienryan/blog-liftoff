@@ -4,7 +4,8 @@
 <body class="container">
 <h1 th:text="${title}">Default Title</h1>
 <nav th:replace="fragments :: navigation"></nav>
-
+<div class="row justify-content-center">
+    <div class="col-6">
         <br>
 
         <form  method="post" th:action="@{/user/register}" th:object="${user}">
@@ -36,6 +37,8 @@
             <input class="btn btn-primary active" type="submit" value="Register User"/>
 
         </form>
+    </div>
+</div>
 
 <div th:replace="fragments :: footer"></div>
 

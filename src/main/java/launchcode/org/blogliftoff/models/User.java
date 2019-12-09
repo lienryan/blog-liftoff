@@ -17,11 +17,11 @@ public class User {
 
 
     @Size(min=3, message = "Your username must have at least 3 characters")
-    @NotEmpty(message = "Please provide your name")
+    @NotEmpty(message = "Please provide your username")
     private String username;
 
-    @NotEmpty
-    @Size(min=4)
+    @NotEmpty (message = "Password may not be empty")
+    @Size(min=4, message = "Your password must have at least 3 characters")
     private String password;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)

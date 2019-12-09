@@ -45,7 +45,7 @@
         <li class="nav-item" sec:authorize="isAuthenticated()">
             <form th:action="@{/logout}" method="post" >
                 <input type="hidden"/>
-                <input class="active" type="submit" value="Log Out"  />
+                <input class="btn btn-primary" type="submit" value="Log Out"  />
             </form>
         </li>
 
