@@ -12,11 +12,17 @@ I decided to make this project because I am passionate about travelling and I wa
 User login: Users are be able to create accounts and log in to the application. Each user will have a profile page.
  ![User Registration](./registration.JPG)
  ![User Login](./login.JPG)
+ 
 - Create Post: Users are be able to create new blog posts when logged in. New posts will appear in the user’s profile.
+ 
  ![Create Blog](./createBlog.JPG)
+
 - Edit Post: Users are be able to edit/delete their blog posts.
+
  ![Edit and Delete](./edit.JPG)
+
 - Everyone can view list of blog posts and comment on each post.
+ 
  ![Home List](./home.JPG)
  ![Post View](./postView.JPG)
  ![Comment](./comment.JPG)
