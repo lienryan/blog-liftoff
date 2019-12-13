@@ -13,7 +13,7 @@
     <div>
         <em><a  class="d-inline"  th:text="'Created: ' + ${#dates.format(post.createDate, 'dd-MMM-yyyy HH:mm:ss')}"></a></em> |
         <em><a  class="d-inline"  th:text="'Updated: ' + ${#dates.format(post.updateDate, 'dd-MMM-yyyy HH:mm:ss')} + ' by ' "></a></em>
-        <b><h6  class="d-inline" style="color:blue;" th:text="${post.user.username}">Created by User</h6></b>
+        <a class="d-inline"><i class="text-primary" th:text="${post.user.username}">Created by User</i></a>
     </div>
 
     <p th:text="${post.body}"></p>
@@ -51,11 +51,11 @@
 
 <br>
 
-<h4 style="color:blue;">Comments:</h4>
+<h4 class="text-primary">Comments:</h4>
 <div th:each="comment : ${post.comments}">
     <p th:text="${comment.text}"></p>
 
-    <h6 class="d-inline"  style="color:blue;" th:text="${comment.name}"></h6>
+    <h6 class="d-inline"><a class="text-primary" th:text="${comment.name}"></a></h6>
     <em><a class="d-inline" th:text="' Posted on ' + ${#dates.format(comment.commentDate, 'dd-MMM-yyyy HH:mm:ss')} "></a></em>
     <hr/>
 

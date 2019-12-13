@@ -28,6 +28,7 @@ public class UserController {
 
     @GetMapping("")
     public String listUsers(Model model) {
+        //TODO Make a list by searching by username
         List<User> allUsers = userService.findAll();
         model.addAttribute("users", allUsers);
         return "user/list";
@@ -78,5 +79,10 @@ public class UserController {
         model.addAttribute("posts", postService.findUserPost(user));
         return "user/profile";
     }
-
+    @PostMapping(value = "delete/{email}")
+    public String processDeleteUser(@PathVariable String email, Model model) {
+        User user=userService.findByEmail(email);
+        //TODO: Only Admin can delete user
+        return "redirect:";
+    }
 }

@@ -25,6 +25,7 @@ public class Post {
     private String title;
 
     @Column(name = "body", columnDefinition = "TEXT")
+    @NotEmpty(message = "Content is required")
     private String body;
 
     @Temporal(TemporalType.TIMESTAMP)

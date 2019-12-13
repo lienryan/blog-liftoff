@@ -7,8 +7,9 @@
 <h1 th:text="${title}" >Default Title</h1>
 
 <h1 th:unless="${posts} and ${posts.size()}">no blog :(</h1>
-<div class="jumbotron text-center">
-    <h1 style="color:blue;" > Welcome to my travel blog page</h1>
+
+<div class="jumbotron text-center" style="background-image: url('beach.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;" >
+    <h1 class="text-warning"> Welcome to my travel blog page</h1>
     Now is: <b th:text="${#dates.format(execInfo.now.time, 'dd-MMM-yyyy HH:mm:ss')}"></b>
 </div>
 
@@ -23,7 +24,7 @@
             <div>
                 <em><a  class="d-inline"  th:text="'Created: ' + ${#dates.format(post.createDate, 'dd-MMM-yyyy HH:mm:ss')}"></a></em> |
                 <em><a  class="d-inline"  th:text="'Updated: ' + ${#dates.format(post.updateDate, 'dd-MMM-yyyy HH:mm:ss')} + ' by ' "></a></em>
-                <b><h6  class="d-inline" style="color:blue;" th:text="${post.user.username}">Created by User</h6></b>
+                <a class="d-inline"  th:text="${post.user.username}" th:href="@{/user/profile}">Created by User</a>
             </div>
         </div>
 
